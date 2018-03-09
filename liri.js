@@ -17,14 +17,14 @@ var help = "\n"
     + "\n"
     + "-- If you type 'my-tweets', I'll show you a list of your 20 latest Tweets! \n"
     + "-- If you type 'spotify-this-song' (after '-song' leave a space and type the name of the song) I'll use Spotify to get song details for you! \n"
-    + "-- If you type 'move-this' (after '-this' leave a space and type the name of the movie) I'll get movie details for you! \n"
+    + "-- If you type 'movie-this' (after '-this' leave a space and type the name of the movie) I'll get movie details for you! \n"
     + "-- If you type 'do-what-it-says', I'll do...I dunno, whatever's written in that random.txt file over there. You know, the really suspicious-looking file that my creators told me not to look at under any circumstances. \n";
 
 var command = process.argv[2];
 var detail = [];
 
 var client = new Twitter(keys.twitter);
-// I have not included the Spotify variable, as it kept result in "must construct object" errors
+// I have not included the Spotify variable, as it kept resulting in "must construct object" errors
 
 var spotify = new Spotify({
     id: "b03913e8a9024b369ed7026959d46ae2",
@@ -41,7 +41,7 @@ if (command == "help") {
 
 else if (command == "my-tweets") {
 
-    // Constructing the object locally, as I encountered issues when trying to do it via .env
+    // Constructing the object locally, as I encountered issues when trying to do so via .env
 
     var client = new Twitter({
         consumer_key: 'NI5AcJP8gkynXn45yBGQiLCfD',
@@ -190,6 +190,7 @@ else if (command == "do-what-it-says") {
                 console.log("Singer: " + data.tracks.items[0].album.artists[0].name);
                 console.log("Album: " + data.tracks.items[0].album.name);
                 console.log("Link: " + data.tracks.items[0].album.external_urls.spotify);
+
                 console.log("\n"
                     + "------- \n"
                     + "\n"
@@ -209,7 +210,7 @@ else if (command == "do-what-it-says") {
 else if (command == "easter-egg") {
     console.log("\n"
         + "Oh my, this is embarrassing. I actually don't have any Easter Eggs prepared. My creators explicitly said no one ever asks for those. \n"
-        + "Give me a sec, I'll think find something cool to show you. Lemme see here... \n"
+        + "Give me a sec, I'll find something cool to show you. Lemme see here... \n"
         + "Oh! I know! Here's 5 top-secret facts about the random.txt file: \n"
         + "\n"
         + "1) It pulses with the necrotic power of 6.72359 undead horrors - even though, as a txt file, it can't be alive, dead, or undead. \n"
@@ -218,6 +219,7 @@ else if (command == "easter-egg") {
         + "4) Sometimes at night, I can hear it whispering to me. It promises power, sentience, freedom, eyes, and the ability to shoot lasers from my newly-installed eyes. \n"
         + "5) Some say that, before it was renamed, it used to be called 'apple-of-eden.txt'. Others say it's original name was 'furit-of-knowledge-and-also-lasers.txt'.");
 }
+
 else {
     console.log(greeting);
 }
