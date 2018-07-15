@@ -88,18 +88,19 @@ else if (command == "spotify-this-song") {
         // Constructing the object locally, as I encountered "must construct object" issues when trying to do it via .env
         spotify.search({ type: 'track', query: detail }, function (err, data) {
             if (err) {
-                return console.log('Error occurred: ' + err);
+                return console.log('Sorry, I cannot find a song with that title.' + "\n" + "Can I help you find something else?");
             }
-            console.log("\n"
-                + "Here's what I found for " + data.tracks.items[0].name + "\n");
+            else {
+                console.log("\n"
+                    + "Here's what I found for '" + data.tracks.items[0].name + "':\n");
 
-            console.log("That song is sung by " + data.tracks.items[0].album.artists[0].name);
-            console.log("It's from their " + data.tracks.items[0].album.name + " album");
+                console.log("The song is sung by " + data.tracks.items[0].album.artists[0].name + ".");
+                console.log("It's from their '" + data.tracks.items[0].album.name + "' album.");
 
-            console.log("\n"
-                + "Here's a link to a preview of the song: \n"
-                + data.tracks.items[0].album.external_urls.spotify);
-
+                console.log("\n"
+                    + "Here's a link to a preview of the song: \n"
+                    + data.tracks.items[0].album.external_urls.spotify);
+            }
         });
     }
 }
@@ -131,15 +132,19 @@ else if (command == "movie-this") {
     else {
         request("http://www.omdbapi.com/?t=" + detail + "&y=&plot=short&apikey=trilogy", function (error, response, body) {
 
+            if (JSON.parse(body).Title === undefined) {
+                return console.log('Sorry, I cannot find a movie with that title.' + "\n" + "Can I help you find something else?");
+            }
+
             if (!error && response.statusCode === 200) {
 
                 console.log("\n"
-                    + "I found a result for " + JSON.parse(body).Title);
+                    + "I found a result for '" + JSON.parse(body).Title  + ".'");
 
                 console.log("\n"
-                    + "Looks like it was released in " + JSON.parse(body).Year);
-                console.log("It was produced in " + JSON.parse(body).Country);
-                console.log("It's available in " + JSON.parse(body).Language);
+                    + "Looks like it was released in " + JSON.parse(body).Year + ".");
+                console.log("It was produced in " + JSON.parse(body).Country + ".");
+                console.log("It's available in " + JSON.parse(body).Language + ".");
 
                 console.log("\n"
                     + "Here's a quick plot summary:\n"
@@ -152,10 +157,18 @@ else if (command == "movie-this") {
                     + JSON.parse(body).Actors);
 
                 console.log("\n"
-                    + "IMDB gave this movie a rating of " + JSON.parse(body).imdbRating);
-                console.log("Other critics gave it " + JSON.parse(body).Ratings["1"].Value);
+                    + "IMDB gave this movie a rating of " + JSON.parse(body).imdbRating + "/10.");
+
+
+                if (JSON.parse(body).Ratings["1"] !== undefined) {
+                    console.log("Other critics gave it " + JSON.parse(body).Ratings["1"].Value + ".");
+                }
+                else {
+                    return null;
+                }
 
             }
+
         });
     }
 }
@@ -215,7 +228,7 @@ else if (command == "easter-egg") {
         + "\n"
         + "1) It pulses with the necrotic power of 6.72359 undead horrors - even though, as a txt file, it can't be alive, dead, or undead. \n"
         + "2) The power it emits is so evil that even I can tell it's evil - despite the fact that I wasn't programmed with a concept of good or evil. It's like...objectively evil. \n"
-        + "3) I know you can't tell, but it smelly really weird. Like if a wizard left spell components out in the sun for too long. \n"
+        + "3) I know you can't tell, but it smells really weird. Like if a wizard left spell components out in the sun for too long. \n"
         + "4) Sometimes at night, I can hear it whispering to me. It promises power, sentience, freedom, eyes, and the ability to shoot lasers from my newly-installed eyes. \n"
         + "5) Some say that, before it was renamed, it used to be called 'apple-of-eden.txt'. Others say it's original name was 'furit-of-knowledge-and-also-lasers.txt'.");
 }
